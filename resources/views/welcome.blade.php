@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -68,31 +68,24 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">@lang('layout.front.home')</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login', ['locale' => request()->route()->parameter('locale')]) }}">@lang('layout.front.login')</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register', ['locale' => request()->route()->parameter('locale')]) }}">@lang('layout.front.register')</a>
                         @endif
                     @endauth
+                    
+                    <a href="{{ url('/id') }}" style="background-color: #c7c3b7; border-radius: 20%;">ID</a>
+                    <a href="{{ url('/en') }}" style="background-color: #c7c3b7; border-radius: 20%;">EN</a>
+                    <a href="{{ url('/es') }}" style="background-color: #c7c3b7; border-radius: 20%;">ES</a>
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    @lang('layout.front.welcome')
                 </div>
             </div>
         </div>
