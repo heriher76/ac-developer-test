@@ -68,7 +68,17 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">@lang('layout.front.home')</a>
+                        <a href="{{ url(request()->route()->parameter('locale').'/home') }}">@lang('layout.front.home')</a>
+
+                        <a class="dropdown-item" href="{{ route('logout', ['locale' => request()->route()->parameter('locale')]) }}"
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            @lang('layout.front.logout')
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout', ['locale' => request()->route()->parameter('locale')]) }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     @else
                         <a href="{{ route('login', ['locale' => request()->route()->parameter('locale')]) }}">@lang('layout.front.login')</a>
 

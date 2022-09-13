@@ -19,7 +19,9 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect(RouteServiceProvider::HOME);
+            $path = 'http://'.auth()->user()->subdomain.'.'.env('CENTRAL_DOMAIN', 'localhost').'/en/home';
+
+            return redirect($path);
         }
 
         return $next($request);
