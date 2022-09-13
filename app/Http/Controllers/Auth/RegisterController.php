@@ -30,7 +30,14 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/en/home';
+    protected function redirectTo()
+    {
+        $user = auth()->user();
+
+        $path = 'http://'.$user->subdomain.'.'.env('CENTRAL_DOMAIN', 'localhost').'/en/home';
+
+        return $path;
+    }
 
     /**
      * Create a new controller instance.
