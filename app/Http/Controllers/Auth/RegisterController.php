@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use App\Tenant;
+use App\CentralUser;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -34,7 +35,15 @@ class RegisterController extends Controller
     {
         $user = auth()->user();
 
-        $path = 'http://'.$user->subdomain.'.'.env('CENTRAL_DOMAIN', 'localhost').'/en/home';
+        $tenant = Tenant::find($user->subdomain);
+
+        $redirect_url = 'http://'.$user->subdomain.'.'.env('CENTRAL_DOMAIN', 'localhost').'/en/home';
+
+        $impersonate = tenancy()->impersonate($tenant, $user->id, $redirect_url);
+
+        $path = 'http://'.$user->subdomain.'.'.env('CENTRAL_DOMAIN', 'localhost').'/en/impersonate/'.$impersonate->token;
+
+        auth()->logout();
 
         return $path;
     }
@@ -72,11 +81,21 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data)
-    {
+    {     
         $tenant = Tenant::create(['id' => $data['subdomain']]);
         $tenant->domains()->create(['domain' => $data['subdomain'].'.'.env('CENTRAL_DOMAIN', 'localhost')]);
 
+        $user = CentralUser::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'subdomain' => $data['subdomain'],
+        ]);
+
+        tenancy()->initialize($tenant);
+
         return User::create([
+            'id' => $user->id,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),

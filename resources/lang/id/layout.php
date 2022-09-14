@@ -16,6 +16,7 @@ return [
 		'reset_password' => 'Lupa Kata Sandi',
 		'logout' => 'Keluar',
 		'welcome' => 'Selamat Datang',
-		'home' => 'Beranda'
+		'home' => 'Beranda',
+		'success_login' => 'Kamu berhasil masuk!'
 	]
 ];

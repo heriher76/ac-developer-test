@@ -16,6 +16,7 @@ return [
 		'reset_password' => 'Restablecer la Contraseña',
 		'logout' => 'Cerrar Sesión',
 		'welcome' => 'Bienvenidos',
-		'home' => 'Hogar'
+		'home' => 'Hogar',
+		'success_login' => 'Has iniciado sesión!'
 	]
 ];

@@ -68,7 +68,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url(request()->route()->parameter('locale').'/home') }}">@lang('layout.front.home')</a>
+                        <a href="{{ '//'.auth()->user()->subdomain.'.'.env('CENTRAL_DOMAIN', 'localhost').'/'.request()->route()->parameter('locale').'/home' }}">@lang('layout.front.home')</a>
 
                         <a class="dropdown-item" href="{{ route('logout', ['locale' => request()->route()->parameter('locale')]) }}"
                            onclick="event.preventDefault();

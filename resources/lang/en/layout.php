@@ -16,6 +16,7 @@ return [
 		'reset_password' => 'Reset Password',
 		'logout' => 'Logout',
 		'welcome' => 'Welcome',
-		'home' => 'Home'
+		'home' => 'Home',
+		'success_login' => 'You are logged in!'
 	]
 ];

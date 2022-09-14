@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Tenant;
 
 class LoginController extends Controller
 {
@@ -41,7 +42,15 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        $path = 'http://'.$user->subdomain.'.'.env('CENTRAL_DOMAIN', 'localhost').'/en/home';
+        $tenant = Tenant::find($user->subdomain);
+
+        $redirect_url = 'http://'.$user->subdomain.'.'.env('CENTRAL_DOMAIN', 'localhost').'/en/home';
+
+        $impersonate = tenancy()->impersonate($tenant, $user->id, $redirect_url);
+
+        $path = 'http://'.$user->subdomain.'.'.env('CENTRAL_DOMAIN', 'localhost').'/en/impersonate/'.$impersonate->token;
+
+        auth()->logout();
 
         return redirect($path);
     }
@@ -60,6 +69,6 @@ class LoginController extends Controller
 
         return $request->wantsJson()
             ? new Response('', 204)
-            : redirect('/'.request()->route()->parameter('locale'));
+            : redirect('//'.env('CENTRAL_DOMAIN', 'localhost').'/'.request()->route()->parameter('locale'));
     }
 }

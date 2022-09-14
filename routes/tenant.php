@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
+use Stancl\Tenancy\Contracts\Tenant;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,19 +18,24 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 | Feel free to customize them however you want. Good luck!
 |
 */
-    
-Route::middleware([
+Route::namespace('App\\Http\\Controllers\\')->middleware([
     'web',
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
 
-    Route::group(['prefix' => '{locale}/', 'middleware' => 'localization'], function() {    
-        // Route::get('/home', function () {
-        //     return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
-        // });
+    Route::group(['prefix' => '{locale}/', 'middleware' => 'localization'], function() {
+        Route::get('/impersonate/{token}', 'ImpersonateController@store');
 
-        Route::get('/home', '\App\Http\Controllers\HomeController@index')->name('home');
+        Route::get('/home', 'HomeController@index')->name('home');
     });
 
+});
+
+Route::namespace('App\\Http\\Controllers\\')->middleware([
+    'web',
+    'universal', 
+    'localization',
+])->prefix('{locale}/')->group(function () {
+    Auth::routes();
 });

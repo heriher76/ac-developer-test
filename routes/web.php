@@ -20,6 +20,4 @@ Route::group(['prefix' => '{locale}/', 'middleware' => 'localization'], function
     Route::get('/', function () {
         return view('welcome');
     });
-
-    Auth::routes();
 });
