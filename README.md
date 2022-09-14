@@ -7,7 +7,7 @@ Built with Laravel 7 for Multi Tenancy and Localization.
 ```bash
 git clone https://github.com/heriher76/ac-developer-test
 ```
-2. Copy .env.example file to .env and edit database credentials there. Don't forget to update the CENTRAL_DOMAIN with your local url.
+2. Copy .env.example file to .env and edit database credentials there. Don't forget to update the CENTRAL_DOMAIN and APP_URL with your local url.
 
 3. Use the package manager "composer" to install library.
 
