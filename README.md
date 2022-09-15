@@ -1,6 +1,7 @@
 # AC Developer Test
 
-Built with Laravel 7 for Multi Tenancy and Localization.
+Built with Laravel 9 for Multi Tenancy and Localization.
+Minimum PHP 8.
 
 ## Installation
 1. Clone the repository with 
